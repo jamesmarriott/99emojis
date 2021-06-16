@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import React, { useState, useEffect } from "react";
 import { List, arrayMove } from "react-movable";
 
-export default function App() {
+function Simple() {
   const [items, setItems] = React.useState([
     "Sausage",
     "Apple",
@@ -94,3 +94,5 @@ export default function App() {
   );
 }
 
+const rootElement = document.getElementById("root");
+render(<Simple />, rootElement);
