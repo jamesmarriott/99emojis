@@ -4,6 +4,7 @@ import { generateQuestion } from "../helpers"
 export default function QuestionDisplay ({hundredEmoji, randomPos, time}) {
   const [correct, setCorrect] = useState(false);
   const [counter, setCounter] = useState(time);
+  const [showModal, setShowModal] = useState(false);
 
 const checkCorrect = (item, index) => {
   if (index === randomPos) {
@@ -20,6 +21,19 @@ useEffect(() => {
 
   return (
     <>
+    {/* <div className="fixed inset-0 flex items-center justify-center">
+      <div className="bg-white max-w-md w-full p-6">
+          <h1 className="text-4xl font-bold text-center leading-none mb-2">Start Game</h1>
+          <p className="text-sm text-gray-700 text-center mb-4">Some text</p>
+          <button className="bg-blue-500 text-white w-full py-3 rounded-full">Start</button>
+      </div>
+    </div> */}
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="max-w-md w-full p-6">
+          <h1 className="text-9xl text-red-500 font-bold text-center leading-none mb-2">3</h1>
+      </div>
+    </div>
+
     <div className="flex h-screen bg-green-200 justify-items-stretch">
       {hundredEmoji.length > 0 &&
         <div className="m-auto">
@@ -59,7 +73,8 @@ useEffect(() => {
 </div> */}
 
 
-// display: Score (score = time bonus), question 1 of 10, 
+// display: Score (score = time bonus), question 1 of 10,
+// countdown to start (background (opacity))
 // modal - correct / wrong / delay and then next question
 // when working, make responsive.
 // randomly generate background colors
