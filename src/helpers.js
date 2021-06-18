@@ -1,15 +1,18 @@
-export function generateQuestion(randomPos, emojiAmount) {
+export function generateQuestion(randomPos, emojiAmount, questionNum) {
   const hundredEmoji = []
   let i = 0
-  const emojiBase = [
-    ["😃"],["😄"]
-  ];
+  
+  const emojiBase = {
+    1: ["😃", "😄"],
+    2: ["😈", "👿"]
+  };
+  
   do {
     if (i === randomPos) { 
-      hundredEmoji.push(emojiBase[1])
+      hundredEmoji.push(emojiBase[questionNum][1])
       console.log(i)
     }
-    else hundredEmoji.push(emojiBase[0])
+    else hundredEmoji.push(emojiBase[questionNum][0])
     i = i + 1;
   } 
   while (i < emojiAmount);

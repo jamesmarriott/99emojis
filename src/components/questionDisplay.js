@@ -1,58 +1,67 @@
 import React, { useState, useEffect } from "react";
+import MessageModal from "./messageModal";
+import NextModal from "./nextModal";
 import { generateQuestion } from "../helpers"
 
-export default function QuestionDisplay ({hundredEmoji, randomPos, time}) {
+export default function QuestionDisplay ({emojiAmount, randomPos, time}) {
   const [correct, setCorrect] = useState(false);
   const [counter, setCounter] = useState(time);
+  const [questionNum, setQuestionNumber] = useState(1)
   const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+  const [roundOver, setRoundOver] = useState(false)
+  const [lose, setLose] = useState(false)
+  const [emoji, setEmoji] = useState(generateQuestion(randomPos, emojiAmount, questionNum))
 
 const checkCorrect = (item, index) => {
-  if (index === randomPos) {
-    console.log("correct")
+  if (!lose && index === randomPos){
+    setMessage("Correct!")
+    setCorrect(true)
   }
   else {
-    console.log("wrong")
+    if (!lose) setMessage("Wrong!")
   }
 }
 
 useEffect(() => {
-  counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
+  message === "Wrong!" && setTimeout(() => setMessage(""), 500);
+}, [message]);
+
+useEffect(() => {
+  (counter > 0 && !correct) && setTimeout(() => setCounter(counter - 1), 1000)
 }, [counter]);
+
+useEffect(() => {
+  counter === 0 && setLose(true)
+  counter === 0 && setMessage("Time's Up!");
+}, [counter]);
+
+useEffect(() => {
+  (lose || correct) && setTimeout(() => setRoundOver(true), 2000)
+}, [lose,correct]);
 
   return (
     <>
-    {/* <div className="fixed inset-0 flex items-center justify-center">
-      <div className="bg-white max-w-md w-full p-6">
-          <h1 className="text-4xl font-bold text-center leading-none mb-2">Start Game</h1>
-          <p className="text-sm text-gray-700 text-center mb-4">Some text</p>
-          <button className="bg-blue-500 text-white w-full py-3 rounded-full">Start</button>
-      </div>
-    </div> */}
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="max-w-md w-full p-6">
-          <h1 className="text-9xl text-red-500 font-bold text-center leading-none mb-2">3</h1>
-      </div>
-    </div>
+    {roundOver ? 
+    <NextModal /> : null}
 
+    <MessageModal message={message}/>
     <div className="flex h-screen bg-green-200 justify-items-stretch">
-      {hundredEmoji.length > 0 &&
+      {emoji.length > 0 &&
         <div className="m-auto">
-            <div className="flex font-sans pb-10 text-5xl align-center">
-              <div>Score: 100</div>
-              <div>Which one is different?</div>
-              </div>
-          <div className="grid grid-cols-10 gap-5">
-            {hundredEmoji.map((item, index) => (
+            <div className="font-sans pb-10 text-5xl text-center">Find the odd one out!</div>
+          <div className={`grid grid-cols-10 gap-5`}>
+            {emoji.map((item, index) => (
               <button
                 key={index}
-                className="text-6xl focus: outline-none"
+                className={`text-6xl focus:outline-none ${lose ? "cursor-not-allowed" : ""} ${lose && index !== randomPos? "opacity-20" : ""}`}
                 onClick={() => checkCorrect(item, index)}
                 >{item}</button>
             ))}
           </div>
           <div className="font-sans text-center pt-6 text-4xl">{counter}</div>
           <div className="relative pt-6">
-            <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-pink-200">
+            <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
                 <div style={{ width: `${counter*(100/time)}%`}} 
                   className="transition-all ease-out duration-100 shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-600">
                 </div>
@@ -74,7 +83,10 @@ useEffect(() => {
 
 
 // display: Score (score = time bonus), question 1 of 10,
-// countdown to start (background (opacity))
 // modal - correct / wrong / delay and then next question
 // when working, make responsive.
 // randomly generate background colors
+
+// todo - start modal 
+// Start modal with button
+// 
