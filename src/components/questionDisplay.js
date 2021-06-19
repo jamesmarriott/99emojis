@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import MessageModal from "./messageModal";
 import NextModal from "./nextModal";
 import { generateQuestion } from "../helpers"
+import useUpdateEffect from "./useUpdateEffects";
 
 export default function QuestionDisplay ({emojiAmount, randomPos, time}) {
   const [correct, setCorrect] = useState(false);
   const [counter, setCounter] = useState(time);
-  const [questionNum, setQuestionNumber] = useState(1)
+  const [questionNum, setQuestionNum] = useState(1)
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [roundOver, setRoundOver] = useState(false)
   const [lose, setLose] = useState(false)
-  const [emoji, setEmoji] = useState(generateQuestion(randomPos, emojiAmount, questionNum))
+  const initialState = generateQuestion(randomPos, emojiAmount, questionNum)
+  const [emoji, setEmoji] = useState(initialState)
 
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
@@ -36,14 +38,20 @@ useEffect(() => {
   counter === 0 && setMessage("Time's Up!");
 }, [counter]);
 
-useEffect(() => {
-  (lose || correct) && setTimeout(() => setRoundOver(true), 2000)
+useUpdateEffect(() => {
+  (lose || correct) && setTimeout(() => 
+  setRoundOver(true), 2000)
 }, [lose,correct]);
+
+const nextClick = () => {
+  setQuestionNum(prevState => prevState + 1)
+  setEmoji(generateQuestion(randomPos, emojiAmount, questionNum))
+}
 
   return (
     <>
     {roundOver ? 
-    <NextModal /> : null}
+    <NextModal nextClick={nextClick}/> : null}
 
     <MessageModal message={message}/>
     <div className="flex h-screen bg-green-200 justify-items-stretch">

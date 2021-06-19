@@ -8,7 +8,7 @@ const NextModal = ({ nextClick }) => (
           <h2 className="text-2xl text-center leading-none mb-2">Round 1/ 10</h2>
           <button
           className="bg-blue-500 text-white w-full py-3 t mt-3 rounded-full"
-         onClick={nextClick}
+         onClick={nextClick => console.log(nextClick)}
           >Next Round</button>
       </div>
     </div>
