@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { generateQuestion } from "../helpers"
 import QuestionDisplay from "../components/questionDisplay"
 import StartModal from "../components/startModal"
 import CountModal from "../components/countModal"
@@ -14,10 +13,9 @@ const [countStart, setCountStart] = useState(false)
 const [startGame, setStartGame] = useState(false)
 const emojiAmount = 100
 const [randomPos, setRandomPos] = useState()
-const time = 10
+const time = 1000
 
   const startCount = () => {
-    setRandomPos(Math.floor(Math.random() * emojiAmount))
     setCountStart(true)
   }
 

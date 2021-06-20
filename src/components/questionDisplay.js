@@ -1,73 +1,132 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MessageModal from "./messageModal";
+import GameOver from "./finalscore";
 import NextModal from "./nextModal";
-import { generateQuestion } from "../helpers"
-import useUpdateEffect from "./useUpdateEffects";
+import EmojiDisplay from "./emojiDisplay";
+// import useUpdateEffect from "./useUpdateEffects";
 
-export default function QuestionDisplay ({emojiAmount, randomPos, time}) {
+// round number increment
+// score increment (correct +500 + time remaining)
+// game over / play again
+
+export default function QuestionDisplay ({emojiAmount, time}) {
+  const [randomPos, setRandomPos] = useState(Math.floor(Math.random() * emojiAmount))
   const [correct, setCorrect] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
   const [counter, setCounter] = useState(time);
   const [questionNum, setQuestionNum] = useState(1)
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [roundOver, setRoundOver] = useState(false)
   const [lose, setLose] = useState(false)
-  const initialState = generateQuestion(randomPos, emojiAmount, questionNum)
-  const [emoji, setEmoji] = useState(initialState)
-
+  const [emoji, setEmoji] = useState([])
+  const [score, setScore] = useState(0)
+  const [roundNumber, setRoundNumber] = useState(1)
+  const totalRounds = 10;
+  
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
-    setMessage("Correct!")
+    setMessage("✔️")
     setCorrect(true)
+    setScore(score+counter)
   }
   else {
-    if (!lose) setMessage("Wrong!")
+    if (!lose) setMessage("❌")
   }
 }
 
 useEffect(() => {
-  message === "Wrong!" && setTimeout(() => setMessage(""), 500);
+const hundredEmoji = []
+    let i = 0  
+    console.log(questionNum)
+    console.log(randomPos)
+  
+    const emojiBase = {
+      1: ["✋", "🖐"],
+      2: ["😃", "😄"],
+      3: ["😦", "😧"],
+      4: ["😮", "😶"],
+      5: ["💁🏻‍♀️", "🙅🏻‍♀️"],
+      6: ["👩🏻‍🦼", "👨🏻‍🦽"],
+      7: ["💂🏼‍♀️", "💂🏼"],
+      8: ["🕵🏼‍♀️", "🕵🏼"],
+      9: ["👨🏽", "🧑🏽"],
+      10: ["😈", "👿"],
+    };
+    
+    do {
+      if (i === randomPos) { 
+        hundredEmoji.push(emojiBase[questionNum][1])
+      }
+      else hundredEmoji.push(emojiBase[questionNum][0])
+      i = i + 1;
+    } 
+    while (i < emojiAmount);
+    setEmoji(hundredEmoji)
+}, [roundOver])
+
+useEffect(() => {
+  message === "❌" && setTimeout(() => setMessage(""), 500);
+  message === "✔️" && setTimeout(() => setMessage(""), 1500);
+  message === "⏰" && setTimeout(() => setMessage(""), 1500)
 }, [message]);
 
 useEffect(() => {
-  (counter > 0 && !correct) && setTimeout(() => setCounter(counter - 1), 1000)
+  (counter > 0 && !correct) && setTimeout(() => setCounter(counter - 1), 10)
 }, [counter]);
 
 useEffect(() => {
   counter === 0 && setLose(true)
-  counter === 0 && setMessage("Time's Up!");
+  counter === 0 && setMessage("⏰") 
 }, [counter]);
 
-useUpdateEffect(() => {
-  (lose || correct) && setTimeout(() => 
-  setRoundOver(true), 2000)
-}, [lose,correct]);
+useEffect(() => {
+    (lose || correct) && setTimeout(() => 
+    setRoundOver(true), 1500)
+  }, [lose,correct]);
 
-const nextClick = () => {
-  setQuestionNum(prevState => prevState + 1)
-  setEmoji(generateQuestion(randomPos, emojiAmount, questionNum))
+function nextClick() {
+  if (roundNumber === totalRounds) {
+    setRoundOver(false)
+    setGameOver(true)
+    return
+  } else {
+  setRoundNumber(roundNumber + 1) }
+  setQuestionNum(questionNum + 1)
+  setCounter(time)
+  setRandomPos(Math.floor(Math.random() * emojiAmount))
+  console.log(questionNum)
+  console.log(randomPos)
+  console.log(emoji)
+  setRoundOver(false)
+  setLose(false)
+  setCorrect(false)
 }
+
+function playAgainClick() {
+    window.location.reload();
+ }
+
+// const handleClick = () => {
+//   setQuestionNum(prevState => prevState + 1)
+//   setEmoji(generateQuestion(randomPos, emojiAmount, questionNum))
+// }
 
   return (
     <>
-    {roundOver ? 
-    <NextModal nextClick={nextClick}/> : null}
-
-    <MessageModal message={message}/>
+    {(roundOver && !gameOver) ?
+    <NextModal nextClick={nextClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
+    {gameOver ? 
+    <GameOver playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
+    {message !=="" && <MessageModal message={message}/>}
     <div className="flex h-screen bg-green-200 justify-items-stretch">
       {emoji.length > 0 &&
         <div className="m-auto">
-            <div className="font-sans pb-10 text-5xl text-center">Find the odd one out!</div>
+            <div className="font-sans pb-10 text-5xl text-center">One of These Things Is Not Like The Others</div>
           <div className={`grid grid-cols-10 gap-5`}>
-            {emoji.map((item, index) => (
-              <button
-                key={index}
-                className={`text-6xl focus:outline-none ${lose ? "cursor-not-allowed" : ""} ${lose && index !== randomPos? "opacity-20" : ""}`}
-                onClick={() => checkCorrect(item, index)}
-                >{item}</button>
-            ))}
+            <EmojiDisplay emoji={emoji} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
           </div>
-          <div className="font-sans text-center pt-6 text-4xl">{counter}</div>
+          {/* <div className="font-sans text-center pt-6 text-4xl">{Math.round(counter)}</div> */}
           <div className="relative pt-6">
             <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
                 <div style={{ width: `${counter*(100/time)}%`}} 
