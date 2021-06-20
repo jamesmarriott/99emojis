@@ -31,7 +31,7 @@ const checkCorrect = (item, index) => {
     setScore(score+counter)
   }
   else {
-    if (!lose) setMessage("❌")
+    if (!lose && !correct) setMessage("❌")
   }
 }
 
