@@ -6,6 +6,7 @@ module.exports = {
       'sm1':'600px',
       'lg1':'750px',
       'xl1':'1050px',
+      'xl2':'1200px',
        },
   },
   variants: {
