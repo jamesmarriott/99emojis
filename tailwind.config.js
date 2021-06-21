@@ -3,6 +3,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
+      'sm1':'600px',
       'lg1':'750px',
       'xl1':'1050px',
        },
@@ -12,6 +13,3 @@ module.exports = {
   },
   plugins: [],
 }
-
-
-

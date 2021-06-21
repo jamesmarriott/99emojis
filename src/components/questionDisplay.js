@@ -15,6 +15,7 @@ export default function QuestionDisplay ({emojiAmount, time}) {
   const [gameOver, setGameOver] = useState(false);
   const [counter, setCounter] = useState(time);
   const [questionNum, setQuestionNum] = useState(1)
+  const [roundScore, setRoundScore] = useState(0)
   const [message, setMessage] = useState("");
   const [roundOver, setRoundOver] = useState(false)
   const [lose, setLose] = useState(false)
@@ -27,6 +28,7 @@ const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
     setMessage("✔️")
     setCorrect(true)
+    setRoundScore(counter)
     setScore(score+counter)
   }
   else {
@@ -37,7 +39,6 @@ const checkCorrect = (item, index) => {
 useEffect(() => {
 const hundredEmoji = []
     let i = 0
-  
     const emojiBase = {
       1: ["✋", "🖐"],
       2: ["😃", "😄"],
@@ -95,21 +96,17 @@ function nextClick() {
   setRoundOver(false)
   setLose(false)
   setCorrect(false)
+  setRoundScore(0)
 }
 
 function playAgainClick() {
     window.location.reload();
  }
 
-// const handleClick = () => {
-//   setQuestionNum(prevState => prevState + 1)
-//   setEmoji(generateQuestion(randomPos, emojiAmount, questionNum))
-// }
-
   return (
     <>
     {(roundOver && !gameOver) ?
-    <NextModal nextClick={nextClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
+    <NextModal nextClick={nextClick} roundScore={roundScore} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {gameOver ? 
     <GameOver playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {message !=="" && <MessageModal message={message}/>}
