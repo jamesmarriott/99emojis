@@ -26,7 +26,7 @@ export default function QuestionDisplay ({emojiAmount, time}) {
   
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
-    setMessage("✔️")
+    setMessage("✅")
     setCorrect(true)
     setRoundScore(counter)
     setScore(score+counter)
