@@ -12,7 +12,7 @@ export default function EmojiDisplay ({emoji, emojiAmount, checkCorrect, lose, c
     {emoji.map((item, index) => (
       <button
         key={index}
-        className={`text-3xl sm1:text-4xl lg1:text-5xl xl1:text-6xl xl2:text-7xl focus:outline-none 
+        className={`text-3xl sm1:text-4xl lg1:text-5xl xl1:text-6xl xl2:text-6xl focus:outline-none 
         ${lose ? "cursor-not-allowed" : ""} 
         ${lose && index !== randomPos? "opacity-20" : ""}
         ${correct && index !== randomPos? "opacity-20" : ""}
