@@ -114,9 +114,7 @@ function playAgainClick() {
       {emoji.length > 0 &&
         <div className="m-auto">
             <div className="font-sans pb-10 text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl text-center">One of These Things Is Not Like The Others</div>
-          <div className={`grid gap-0 sm1:gap-2 lg1:gap-3 xl1:gap-5 grid-cols-10`}>
-            <EmojiDisplay emoji={emoji} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
-          </div>
+            <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
           <div className="relative pt-6">
             <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
                 <div style={{ width: `${counter*(100/time)}%`}} 
