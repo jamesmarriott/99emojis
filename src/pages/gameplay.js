@@ -41,29 +41,26 @@ const time = 1000
             <div className="bg-white max-w-md w-full p-6">
                 <h1 className="text-4xl font-bold text-center leading-none 
                 mb-2">99 Emojis</h1>
+                <h2 className="text-2xl text-center leading-none 
+                mb-2 pb-3">(and a different one)</h2>
                 <select
                 defaultValue={emojiAmount}
                 onChange={handleChange}
-                className="w-full bg-white border border-gray-00 hover:border-gray-500 px-2 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline text-2xl">
+                className="w-full bg-white border border-gray-00 hover:border-gray-500 px-2 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline text-2xl">
                     <option value="100" 
                     className="text-2xl text-center leading-none
-                    mb-2">99+1 Emojis</option>
+                    mb-2">99+1</option>
 
                     <option value="81"
                     className="text-2xl text-center leading-none
-                    mb-2">80+1 Emojis (tablet friendly)</option>
+                    mb-2">80+1 (tablet friendly)</option>
 
                     <option value="64"
                     className="text-2xl text-center leading-none
-                    mb-2">63+1 Emojis (mobile friendly)</option>
+                    mb-2">63+1 (mobile friendly)</option>
 
                   </select>
                 
-                  {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div> */}
-
-
                 {countStart ?
                 <CountModal countDown={countDown}/> :
                 <button className="bg-blue-500 text-white w-full py-3 t mt-3 rounded-full" 
