@@ -115,7 +115,7 @@ function playAgainClick() {
         <div className="m-auto">
             <div className="font-sans pb-10 text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl text-center">One of These Things Is Not Like The Others</div>
             <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
-          <div className="relative pt-6">
+          <div className="relative pt-6 ml-2 mr-2">
             <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
                 <div style={{ width: `${counter*(100/time)}%`}} 
                   className="transition-all ease-out duration-100 shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-600">

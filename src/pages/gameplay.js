@@ -51,7 +51,7 @@ const time = 1000
 
                     <option value="81"
                     className="text-2xl text-center leading-none
-                    mb-2">80+1 Emojis (mobile friendly)</option>
+                    mb-2">80+1 Emojis (tablet friendly)</option>
 
                     <option value="64"
                     className="text-2xl text-center leading-none
