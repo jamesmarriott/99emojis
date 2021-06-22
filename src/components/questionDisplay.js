@@ -65,7 +65,7 @@ const hundredEmoji = []
 
 useEffect(() => {
   message === "❌" && setTimeout(() => setMessage(""), 500);
-  message === "✔️" && setTimeout(() => setMessage(""), 1500);
+  message === "✅" && setTimeout(() => setMessage(""), 1500);
   message === "⏰" && setTimeout(() => setMessage(""), 1500)
 }, [message]);
 
