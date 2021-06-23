@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
-import MessageModal from "./messageModal";
-import GameOver from "./finalscore";
-import NextModal from "./nextModal";
-import EmojiDisplay from "./emojiDisplay";
+import React, { useState, useEffect } from "react"
+import MessageModal from "./messageModal"
+import GameOver from "./finalscore"
+import NextModal from "./nextModal"
+import EmojiDisplay from "./emojiDisplay"
+import useSound from 'use-sound'
+import sfxwin from '../sfx/win.mp3'
+import sfxwrong from '../sfx/wrong.mp3'
 // import useUpdateEffect from "./useUpdateEffects";
 
 // round number increment
@@ -24,8 +27,18 @@ export default function QuestionDisplay ({emojiAmount, time}) {
   const [roundNumber, setRoundNumber] = useState(1)
   const totalRounds = 10;
   
+  const [winSound] = useSound(
+    sfxwin,
+    { volume: 0.5 }
+  );
+  const [wrongSound] = useSound(
+    sfxwrong,
+    { volume: 0.5 }
+  );
+
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
+    winSound()
     setMessage("✅")
     setCorrect(true)
     setRoundScore(counter)
@@ -33,6 +46,7 @@ const checkCorrect = (item, index) => {
   }
   else {
     if (!lose && !correct) setMessage("❌")
+    wrongSound()
   }
 }
 
@@ -110,10 +124,10 @@ function playAgainClick() {
     {gameOver ? 
     <GameOver playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {message !=="" && <MessageModal message={message}/>}
-    <div className="flex h-screen bg-green-200 justify-items-stretch text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl">
+    <div className="flex h-screen bg-indigo-200 justify-items-stretch text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl">
       {emoji.length > 0 &&
         <div className="m-auto">
-            <div className="font-sans pb-10 text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl text-center">One of These Things Is Not Like The Others</div>
+            <div className="font-mono pb-10 text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl text-center">Which one is different? 🤔</div>
             <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
           <div className="relative pt-6 ml-2 mr-2">
             <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
