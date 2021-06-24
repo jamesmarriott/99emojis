@@ -45,8 +45,9 @@ const checkCorrect = (item, index) => {
     setScore(score+counter)
   }
   else {
-    if (!lose && !correct) setMessage("❌")
+    if (!lose && !correct) { setMessage("❌")
     wrongSound()
+    }
   }
 }
 
@@ -128,14 +129,14 @@ function playAgainClick() {
       {emoji.length > 0 &&
         <div className="m-auto font-mono text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">
           <div className="grid grid-cols-6 gap-3 pb-5 justify-between">
-                <div className="col-span-2 place-self-start">🤔</div>
+                <div className="col-span-2 place-self-start">&nbsp;🤔</div>
                 <div className="col-span-2 x-10 underline place-self-center">99 emojis</div>
-                <div className="col-span-2 place-self-end"><span>🎵</span><span>🔈</span></div>
+                <div className="col-span-2 place-self-end"><span>🎵&nbsp;</span><span>🔈</span>&nbsp;</div>
             </div>
             
             <div className="grid grid-cols-4 gap-3 mt-5 pb-5 justify-between">
-                <div className="col-span-2 place-self-start">Score: {score}</div>
-                <div className="col-span-2 place-self-end">💖💖🤍</div>
+                <div className="col-span-2 place-self-start">&nbsp;Score: {score}</div>
+                <div className="col-span-2 place-self-end">💖💖🤍&nbsp;</div>
             </div>
             
             <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
