@@ -126,13 +126,18 @@ function playAgainClick() {
     {message !=="" && <MessageModal message={message}/>}
     <div className="flex h-screen bg-indigo-200 justify-items-stretch text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl">
       {emoji.length > 0 &&
-        <div className="m-auto">
-            <div className="font-mono text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl pb-6 text-center">Which one is different?</div>
-          <div className="flex justify-between grid-cols-2 flex-auto pb-4">
-          <div className="flex font-mono pb-4 text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">Score: {score}</div>
-            <div className="flex font-mono pb-4 text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">🤔</div>
-            <div className="flex font-mono pb-4 text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">💖💖💖</div>
-          </div>
+        <div className="m-auto font-mono text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">
+          <div className="grid grid-cols-6 gap-3 pb-5 justify-between">
+                <div className="col-span-2 place-self-start">🤔</div>
+                <div className="col-span-2 x-10 underline place-self-center">99 emojis</div>
+                <div className="col-span-2 place-self-end"><span>🎵</span><span>🔈</span></div>
+            </div>
+            
+            <div className="grid grid-cols-4 gap-3 mt-5 pb-5 justify-between">
+                <div className="col-span-2 place-self-start">Score: {score}</div>
+                <div className="col-span-2 place-self-end">💖💖🤍</div>
+            </div>
+            
             <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>
           <div className="relative pt-6 ml-2 mr-2">
             <div className="overflow-hidden h-6 mb-4 text-xs flex rounded bg-pink-200">
