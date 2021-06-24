@@ -3,8 +3,8 @@ import React from "react";
 export default function StartModal () {
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="bg-white max-w-md w-full p-6">
+    <div className="fixed inset-0 max-w-md flex items-center justify-center">
+      <div className="bg-white w-full p-6">
           <h1 className="text-4xl font-bold text-center leading-none 
           mb-2">99 Emojis</h1>
           <h2 className="text-2xl text-center leading-none mb-2">(and a different one)</h2>
