@@ -6,6 +6,8 @@ import EmojiDisplay from "./emojiDisplay"
 import useSound from 'use-sound'
 import sfxwin from '../sfx/win.mp3'
 import sfxwrong from '../sfx/wrong.mp3'
+import sfxtick from '../sfx/tickclock.mp3'
+import sfxtime from '../sfx/timeup.mp3'
 // import useUpdateEffect from "./useUpdateEffects";
 
 // round number increment
@@ -25,7 +27,9 @@ export default function QuestionDisplay ({emojiAmount, time}) {
   const [emoji, setEmoji] = useState([])
   const [score, setScore] = useState(0)
   const [roundNumber, setRoundNumber] = useState(1)
+  const [lives, setLives] = useState(3)
   const totalRounds = 10;
+  const [playBackRate, setPlayBackRate] = useState(1.5)
   
   const [winSound] = useSound(
     sfxwin,
@@ -35,17 +39,26 @@ export default function QuestionDisplay ({emojiAmount, time}) {
     sfxwrong,
     { volume: 0.5 }
   );
+  const [sfxTick, { stop }] = useSound(sfxtick, {
+    volume: 0.5
+  });
+  const [sfxTime] = useSound(
+    sfxtime,
+    { volume: 0.5 }
+  );
 
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
     winSound()
     setMessage("✅")
+    stop()
     setCorrect(true)
     setRoundScore(counter)
     setScore(score+counter)
   }
   else {
     if (!lose && !correct) { setMessage("❌")
+    setScore(score-100)
     wrongSound()
     }
   }
@@ -78,6 +91,7 @@ const hundredEmoji = []
     setEmoji(hundredEmoji)
 }, [roundOver])
 
+
 useEffect(() => {
   message === "❌" && setTimeout(() => setMessage(""), 500);
   message === "✅" && setTimeout(() => setMessage(""), 1500);
@@ -90,7 +104,9 @@ useEffect(() => {
 
 useEffect(() => {
   counter === 0 && setLose(true)
-  counter === 0 && setMessage("⏰") 
+  counter === 0 && setLives(lives-1)
+  counter === 0 && setMessage("⏰")
+  counter === 0 && sfxTime()
 }, [counter]);
 
 useEffect(() => {
@@ -112,6 +128,7 @@ function nextClick() {
   setLose(false)
   setCorrect(false)
   setRoundScore(0)
+  sfxTick()
 }
 
 function playAgainClick() {
@@ -129,14 +146,23 @@ function playAgainClick() {
       {emoji.length > 0 &&
         <div className="m-auto font-mono text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">
           <div className="grid grid-cols-6 gap-3 pb-5 justify-between">
-                <div className="col-span-2 place-self-start">&nbsp;🤔</div>
+                <div className="col-span-2 place-self-start">&nbsp;
+                {(!correct && !lose) && "🤔"}
+                {correct && "🥳"}
+                {lose && "😭"}
+                  </div>
                 <div className="col-span-2 x-10 underline place-self-center">99 emojis</div>
                 <div className="col-span-2 place-self-end"><span>🎵&nbsp;</span><span>🔈</span>&nbsp;</div>
             </div>
             
             <div className="grid grid-cols-4 gap-3 mt-5 pb-5 justify-between">
                 <div className="col-span-2 place-self-start">&nbsp;Score: {score}</div>
-                <div className="col-span-2 place-self-end">💖💖🤍&nbsp;</div>
+                <div className="col-span-2 place-self-end">
+                {lives === 3 && "💖💖💖"}
+                {lives === 2 && "💖💖🤍"}
+                {lives === 1 && "💖🤍🤍"}
+                {lives < 1 && "🤍🤍🤍"}
+                &nbsp;</div>
             </div>
             
             <EmojiDisplay emoji={emoji} emojiAmount={emojiAmount} checkCorrect={checkCorrect} correct={correct} lose={lose} randomPos={randomPos}/>

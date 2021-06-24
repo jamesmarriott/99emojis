@@ -5,10 +5,10 @@ export default function EmojiDisplay ({emoji, emojiAmount, checkCorrect, lose, c
   console.log(emojiAmount)
 
   return (
-    <div className={`grid
+    <div className={`grid w-full
     ${parseInt(emojiAmount) === 64 ? "grid-cols-8 gap-2 sm1:gap-2 lg1:gap-4 xl1:gap-4 xl2:gap-5" : ""}
     ${parseInt(emojiAmount) === 81 ? "grid-cols-9 sm1:gap-1 lg1:gap-4 xl1:gap-4" : ""}
-    ${parseInt(emojiAmount) === 100 ? "grid-cols-10 gap-1 sm1:gap-2 lg1:gap-4 xl1:gap-4" : ""}
+    ${parseInt(emojiAmount) === 100 ? "grid-cols-10 gap-2 sm1:gap-3 lg1:gap-4 xl1:gap-4" : ""}
     `}>
      
     {emoji.map((item, index) => (
