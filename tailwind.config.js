@@ -21,7 +21,7 @@ module.exports = {
       'lg1':'750px',
       'xl1':'1200px',
       'xl2':'1600px',
-       },
+     },
   },
   variants: {
     outline: ["focus"],
