@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react"
 import MessageModal from "./messageModal"
 import GameOver from "./finalscore"
+import WonGame from "./winner"
 import NextModal from "./nextModal"
 import EmojiDisplay from "./emojiDisplay"
 import useSound from 'use-sound'
-import sfxwin from '../sfx/win.mp3'
+import sfxcorrect from '../sfx/win.mp3'
 import sfxwrong from '../sfx/wrong.mp3'
 import sfxtime from '../sfx/timeup.mp3'
 import sfxover from '../sfx/gameover.mp3'
+import sfxwon from '../sfx/gamewon.mp3'
 // import useUpdateEffect from "./useUpdateEffects";
 
 // round number increment
@@ -24,20 +26,28 @@ export default function QuestionDisplay ({emojiAmount, time}) {
   const [message, setMessage] = useState("");
   const [roundOver, setRoundOver] = useState(false)
   const [lose, setLose] = useState(false)
+  const [win, setWin] = useState(false)
   const [emoji, setEmoji] = useState([])
   const [score, setScore] = useState(0)
   const [roundNumber, setRoundNumber] = useState(1)
   const [lives, setLives] = useState(3)
-  const totalRounds = 10;
+  const [muteToggle, setMuteToggle] = useState(false)
+
+  const totalRounds = 30;
   const [playBackRate, setPlayBackRate] = useState(1.5)
   
-  const [winSound] = useSound(
-    sfxwin,
+  const [sfxCorrect, {}] = useSound(
+    sfxcorrect,
     { volume: 0.5 }
   );
 
   const [sfxOver] = useSound(
     sfxover,
+    { volume: 0.5 }
+  );
+
+  const [sfxWon] = useSound(
+    sfxwon,
     { volume: 0.5 }
   );
 
@@ -53,7 +63,7 @@ export default function QuestionDisplay ({emojiAmount, time}) {
 
 const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
-    winSound()
+    sfxCorrect()
     setMessage("✅")
     setCorrect(true)
     setRoundScore(counter)
@@ -77,12 +87,36 @@ const hundredEmoji = []
       4: ["😮", "😶"],
       5: ["💁🏻‍♀️", "🙅🏻‍♀️"],
       6: ["👩🏻‍🦼", "👨🏻‍🦽"],
-      7: ["💂🏼‍♀️", "💂🏼"],
-      8: ["🕵🏼‍♀️", "🕵🏼"],
+      7: ["👍", "👎"],
+      8: ["🤷‍♀️", "🤷‍♂️"],
       9: ["👨🏽", "🧑🏽"],
       10: ["😈", "👿"],
+      11: ["😸", "😹"],
+      12: ["🧞‍♀️", "🧞‍♂️"],
+      13: ["👪", "👨‍👩‍👧‍👦"],
+      14: ["🧚🏻‍♀️", "🧚🏻‍♂️"],
+      15: ["👧🏾", "👦🏾"],
+      16: ["🧜🏿‍♂️", "🧜🏿"],
+      17: ["🐷", "🐽"],
+      18: ["🐵", "🙈"],
+      19: ["🙊", "🙉"],
+      20: ["🍀", "☘️"],
+      21: ["🌩", "⛈"],
+      22: ["🍋", "🍐"],
+      23: ["🍏", "🍎"],
+      24: ["🍻", "🍺"],
+      25: ["🛠", "⛏"],
+      26: ["🛁", "🛀"],
+      27: ["♠️", "♣️"],
+      28: ["🅰️", "🅱️"],
+      29: ["🛐", "☦️"],
+      30: ["🔒", "🔐"],
+      31: ["🔍", "🔎"],
+      32: ["🎥", "📹"],
+      33: ["🚤", "🛥"],
+      34: ["🎷", "🎺"],
+      35: ["🎻", "🪕"],
     };
-    
     do {
       if (i === randomPos) { 
         hundredEmoji.push(emojiBase[questionNum][1])
@@ -116,16 +150,26 @@ useEffect(() => {
     (lose || correct && lives > 0) && setTimeout(() => 
     setRoundOver(true), 1500)
     if (lives < 1) {
-      setTimeout(() => 
+      setTimeout(() =>
         setGameOver(true), 1500)
-        sfxOver()
     }
   }, [lose,correct]);
+
+useEffect(() => {
+  sfxOver()
+},[gameOver])
+
+
+useEffect(() => {
+  sfxWon()
+},[win])
+
 
 function nextClick() {
   if (roundNumber === totalRounds) {
     setRoundOver(false)
-    setGameOver(true)
+    // setGameOver(true)
+    setWin(true)
     return
   } else {
   setRoundNumber(roundNumber + 1) }
@@ -136,7 +180,6 @@ function nextClick() {
   setLose(false)
   setCorrect(false)
   setRoundScore(0)
-
 }
 
 function playAgainClick() {
@@ -147,6 +190,8 @@ function playAgainClick() {
     <>
     {(roundOver && !gameOver) ?
     <NextModal nextClick={nextClick} roundScore={roundScore} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
+    {win ?
+    <WonGame playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {gameOver ? 
     <GameOver playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {message !=="" && <MessageModal message={message}/>}
@@ -160,7 +205,7 @@ function playAgainClick() {
                 {lose && "😭"}
                   </div>
                 <div className="col-span-2 x-10 underline place-self-center">99 emojis</div>
-                <div className="col-span-2 place-self-end"><span>🎵&nbsp;</span><span>🔈</span>&nbsp;</div>
+                <div className="col-span-2 place-self-end"><span>&nbsp;</span><span>🔈</span>&nbsp;</div>
             </div>
             
             <div className="grid grid-cols-4 gap-3 mt-5 pb-5 justify-between">
