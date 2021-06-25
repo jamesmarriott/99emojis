@@ -6,8 +6,8 @@ import EmojiDisplay from "./emojiDisplay"
 import useSound from 'use-sound'
 import sfxwin from '../sfx/win.mp3'
 import sfxwrong from '../sfx/wrong.mp3'
-import sfxtick from '../sfx/tickclock.mp3'
 import sfxtime from '../sfx/timeup.mp3'
+import sfxover from '../sfx/gameover.mp3'
 // import useUpdateEffect from "./useUpdateEffects";
 
 // round number increment
@@ -35,13 +35,17 @@ export default function QuestionDisplay ({emojiAmount, time}) {
     sfxwin,
     { volume: 0.5 }
   );
+
+  const [sfxOver] = useSound(
+    sfxover,
+    { volume: 0.5 }
+  );
+
   const [wrongSound] = useSound(
     sfxwrong,
     { volume: 0.5 }
   );
-  const [sfxTick, { stop }] = useSound(sfxtick, {
-    volume: 0.5
-  });
+
   const [sfxTime] = useSound(
     sfxtime,
     { volume: 0.5 }
@@ -51,7 +55,6 @@ const checkCorrect = (item, index) => {
   if (!lose && index === randomPos){
     winSound()
     setMessage("✅")
-    stop()
     setCorrect(true)
     setRoundScore(counter)
     setScore(score+counter)
@@ -95,7 +98,7 @@ const hundredEmoji = []
 useEffect(() => {
   message === "❌" && setTimeout(() => setMessage(""), 500);
   message === "✅" && setTimeout(() => setMessage(""), 1500);
-  message === "⏰" && setTimeout(() => setMessage(""), 1500)
+  message === "💔" && setTimeout(() => setMessage(""), 1500)
 }, [message]);
 
 useEffect(() => {
@@ -105,13 +108,18 @@ useEffect(() => {
 useEffect(() => {
   counter === 0 && setLose(true)
   counter === 0 && setLives(lives-1)
-  counter === 0 && setMessage("⏰")
+  counter === 0 && setMessage("💔")
   counter === 0 && sfxTime()
 }, [counter]);
 
 useEffect(() => {
-    (lose || correct) && setTimeout(() => 
+    (lose || correct && lives > 0) && setTimeout(() => 
     setRoundOver(true), 1500)
+    if (lives < 1) {
+      setTimeout(() => 
+        setGameOver(true), 1500)
+        sfxOver()
+    }
   }, [lose,correct]);
 
 function nextClick() {
@@ -128,7 +136,7 @@ function nextClick() {
   setLose(false)
   setCorrect(false)
   setRoundScore(0)
-  sfxTick()
+
 }
 
 function playAgainClick() {

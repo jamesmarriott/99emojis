@@ -5,7 +5,6 @@ import useSound from 'use-sound'
 import img from '../opimage.png';
 import sfxbeeplow from '../sfx/beeplow.mp3'
 import sfxbeephigh from '../sfx/beephigh.mp3'
-import sfxTicky from '../sfx/tickclock.mp3'
 
 export default function Game() {
 const [countDown, setCountDown] = useState(3);
@@ -14,11 +13,6 @@ const [startGame, setStartGame] = useState(false)
 const [emojiAmount, setEmojiAmount] = useState(100)
 
 const time = 1000
-
-const [sfxticky] = useSound(
-  sfxTicky,
-  { volume: 1 }
-);
 
 const [beepLow] = useSound(
   sfxbeeplow,
@@ -29,8 +23,6 @@ const [beepHigh] = useSound(
   sfxbeephigh,
   { volume: 1 }
 );
-
-
 
   const startCount = () => {
     setCountStart(true)
@@ -53,7 +45,7 @@ const [beepHigh] = useSound(
     }
     else if (countDown === 0) {
       setStartGame(true)
-      sfxticky()
+
     }
   },[countDown, countStart]);
 
