@@ -200,7 +200,7 @@ function playAgainClick() {
     {gameOver ? 
     <GameOver playAgainClick={playAgainClick} score={score} roundNumber={roundNumber} totalRounds={totalRounds}/> : null}
     {message !=="" && <MessageModal message={message}/>}
-    <div className="flex h-screen bg-indigo-200 justify-items-stretch text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl">
+    <div className="flex max-w-full h-screen overflow-hidden bg-indigo-200 justify-items-stretch text-2xl sm1:text-3xl lg1:text-4xl xl1:text-5xl">
       {emoji.length > 0 &&
         <div className="m-auto font-mono text-1xl leading-none sm1:text-2xl lg1:text-3xl xl1:text-4xl xl2:text-5xl text-center">
           <div className="grid grid-cols-6 gap-3 pb-5 justify-between">
