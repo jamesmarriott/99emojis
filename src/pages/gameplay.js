@@ -53,22 +53,22 @@ const [beepHigh] = useSound(
       {startGame ? (
         <QuestionDisplay emojiAmount={emojiAmount} time={time}/>
       ) : (
-          <div className="font-mono fixed inset-0 flex items-center justify-center">
-            <div className="bg-white max-w-md w-full p-6">
+          <div className="bg-gradient-to-r from-green-400 to-blue-500 font-mono fixed inset-0 flex items-center justify-center">
+            <div className="max-w-md w-full p-6">
             {countStart ?
                 <CountModal countDown={countDown}/> :
                 <>
                 <h1 className="text-4xl font-bold text-center leading-none 
-                mb-2">Flag Match</h1>
+                mb-2">{emojiAmount-1} emojis</h1>
                 <h2 className="text-2xl text-center leading-none 
-                mb-2 mt-3 pb-5">Learn the flags of the world!</h2>
+                mb-2 mt-3 pb-5">+ a different one</h2>
                 
                 <select
                 defaultValue={emojiAmount}
                 onChange={handleChange}
-                className="w-full bg-white border border-gray-00 hover:border-gray-500 px-2 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline text-2xl">
+                className="w-full border bg-transparent border-gray-00 hover:border-gray-500 px-2 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline text-2xl">
                     <option value="100" 
-                    className="text-2xl text-center leading-none
+                    className="text-2xl text-center leading-none 
                     mb-2">99+1</option>
 
                     <option value="81"

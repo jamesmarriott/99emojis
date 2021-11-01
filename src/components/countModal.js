@@ -7,7 +7,7 @@ export default function CountModal ({countDown}) {
 
   return (
     <div className="font-mono w-full fixed inset-0 flex items-center justify-center">
-      <div className={`max-w-md w-full p-10 bg-white opacity-100
+      <div className={`max-w-md w-full p-10 opacity-100
       ${parseInt(countDown) === 3 ? "text-red-500" : ""}
       ${parseInt(countDown) === 2 ? "text-yellow-500" : ""}
       ${parseInt(countDown) === 1 ? "text-green-500" : ""}`}>
