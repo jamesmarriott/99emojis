@@ -69,15 +69,15 @@ const [beepHigh] = useSound(
                 className="w-full bg-white border border-gray-00 hover:border-gray-500 px-2 py-2 pr-8 rounded leading-tight focus:outline-none focus:shadow-outline text-2xl">
                     <option value="100" 
                     className="text-2xl text-center leading-none
-                    mb-2">Europe</option>
+                    mb-2">99+1</option>
 
-                    {/* <option value="81"
+                    <option value="81"
                     className="text-2xl text-center leading-none
-                    mb-2">80+1 (easier - tablet friendly)</option>
+                    mb-2">80+1</option>
 
                     <option value="64"
                     className="text-2xl text-center leading-none
-                    mb-2">63+1 (easiest - mobile friendly)</option> */}
+                    mb-2">63+1</option>
 
                   </select>
                 
